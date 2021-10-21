@@ -3,7 +3,7 @@ import { useMutation } from '@apollo/client'
 import { ALL_AUTHORS, UPDATE_BIRTHDAY } from '../queries'
 
 const Authors = (props) => {
-  const [authorName, setAuthorName] = useState('')
+  const [authorName, setAuthorName] = useState(props.allAuthors[0].name)
   const [birthday, setAuthorBirthday] = useState('')
 
   const [ updateBirthday ] = useMutation(UPDATE_BIRTHDAY, {
@@ -15,12 +15,10 @@ const Authors = (props) => {
   }
 
   const authors = props.allAuthors
-  console.log('authors: ', props.allAuthors);
   
-
   const submit = async (event) => {
     event.preventDefault()
-    updateBirthday({ variables: { authorName, birthday } })
+    updateBirthday({ variables: { authorName, birthday } })    
     setAuthorName('')
     setAuthorBirthday('')
   }
@@ -51,15 +49,18 @@ const Authors = (props) => {
 
       <h2>set birthday</h2>
       <form onSubmit={submit}>
-        <div>
-          name
-          <input
+        <label>
+          name&nbsp;
+          <select
             value={authorName}
-            onChange={({ target }) => setAuthorName(target.value)}
-          />
-        </div>
+            onChange={ ({ target }) => setAuthorName(target.value) }>
+            {authors.map(a => 
+              <option key={a.name} value={a.name}>{a.name}</option>
+            )}
+          </select>
+        </label>
         <div>
-          birthday
+          birthday&nbsp;
           <input
             type='number'
             value={birthday}
