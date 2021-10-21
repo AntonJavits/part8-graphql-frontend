@@ -15,12 +15,11 @@ const Authors = (props) => {
   }
 
   const authors = props.allAuthors
+  console.log('authors: ', props.allAuthors);
+  
 
   const submit = async (event) => {
-    event.preventDefault({ authorName, birthday })
-    console.log({ authorName, birthday });
-    console.log( authorName, birthday);
-    
+    event.preventDefault()
     updateBirthday({ variables: { authorName, birthday } })
     setAuthorName('')
     setAuthorBirthday('')
